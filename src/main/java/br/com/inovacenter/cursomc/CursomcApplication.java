@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import br.com.inovacenter.cursomc.entity.Categoria;
 import br.com.inovacenter.cursomc.entity.Cidade;
+import br.com.inovacenter.cursomc.entity.Cliente;
+import br.com.inovacenter.cursomc.entity.Endereco;
 import br.com.inovacenter.cursomc.entity.Estado;
 import br.com.inovacenter.cursomc.entity.Produto;
+import br.com.inovacenter.cursomc.entity.enums.TipoCliente;
 import br.com.inovacenter.cursomc.repositories.CategoriaRepository;
 import br.com.inovacenter.cursomc.repositories.CidadeRepository;
+import br.com.inovacenter.cursomc.repositories.ClienteRepository;
+import br.com.inovacenter.cursomc.repositories.EnderecoRepository;
 import br.com.inovacenter.cursomc.repositories.EstadoRepository;
 import br.com.inovacenter.cursomc.repositories.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -68,5 +79,16 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		estadoRepository.save(Arrays.asList(estado1, estado2));
 		cidadeRepository.save(Arrays.asList(cidade1, cidade2, cidade3));
+		
+		Cliente cliente1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "43555534455", TipoCliente.PESSOAFISICA);
+		cliente1.getTelefones().addAll(Arrays.asList("543254325342", "42543254325423"));
+		
+		Endereco endereco1 = new Endereco(null, "Rua Flores", "300", "casa", "Centro", "13295-000", cliente1, cidade1);
+		Endereco endereco2 = new Endereco(null, "Rua Mattos", "302", "casa", "Centro", "13295-000", cliente1, cidade2);
+		
+		cliente1.getEnderecos().addAll(Arrays.asList(endereco1, endereco2));
+		
+		clienteRepository.save(cliente1);
+		enderecoRepository.save(Arrays.asList(endereco1, endereco2));
 	}
 }
