@@ -15,9 +15,7 @@ public class PagamentoComCartao extends Pagamento {
 		super(id, estado, pedido);
 		this.numeroDeParcelas = numeroParcelas;
 	}
-
-
-
+	
 	public Integer getNumeroDeParcelas() {
 		return numeroDeParcelas;
 	}
