@@ -13,6 +13,7 @@ import br.com.inovacenter.cursomc.entity.Cidade;
 import br.com.inovacenter.cursomc.entity.Cliente;
 import br.com.inovacenter.cursomc.entity.Endereco;
 import br.com.inovacenter.cursomc.entity.Estado;
+import br.com.inovacenter.cursomc.entity.ItemPedido;
 import br.com.inovacenter.cursomc.entity.Pagamento;
 import br.com.inovacenter.cursomc.entity.PagamentoComBoleto;
 import br.com.inovacenter.cursomc.entity.PagamentoComCartao;
@@ -25,6 +26,7 @@ import br.com.inovacenter.cursomc.repositories.CidadeRepository;
 import br.com.inovacenter.cursomc.repositories.ClienteRepository;
 import br.com.inovacenter.cursomc.repositories.EnderecoRepository;
 import br.com.inovacenter.cursomc.repositories.EstadoRepository;
+import br.com.inovacenter.cursomc.repositories.ItemPedidoRepository;
 import br.com.inovacenter.cursomc.repositories.PagamentoRepository;
 import br.com.inovacenter.cursomc.repositories.PedidoRepository;
 import br.com.inovacenter.cursomc.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class CursomcApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedioRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -120,5 +125,18 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		pedidoRepository.save(Arrays.asList(pedido1, pedido2));
 		pagamentoRepository.save(Arrays.asList(pagamento1, pagamento2));
+		
+		ItemPedido item1 = new ItemPedido(pedido1, produto1, 0.00, 1, 2000.0);
+		ItemPedido item2 = new ItemPedido(pedido1, produto3, 0.00, 2, 80.00);
+		ItemPedido item3 = new ItemPedido(pedido2, produto2, 100.00, 1, 800.00);
+		
+		pedido1.getItens().addAll(Arrays.asList(item1, item2));
+		pedido1.getItens().addAll(Arrays.asList(item3));
+		
+		produto1.getItens().add(item1);
+		produto2.getItens().add(item3);
+		produto3.getItens().add(item2);
+		
+		itemPedioRepository.save(Arrays.asList(item1, item2, item3));
 	}
 }
