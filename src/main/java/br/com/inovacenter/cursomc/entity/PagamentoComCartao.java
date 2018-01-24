@@ -2,9 +2,12 @@ package br.com.inovacenter.cursomc.entity;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 import br.com.inovacenter.cursomc.entity.enums.EstadoPagamento;
 
 @Entity
+@JsonTypeName("pagamentoComCartao")
 public class PagamentoComCartao extends Pagamento {
 	private static final long serialVersionUID = 5407671700075749257L;
 	private Integer numeroDeParcelas;

@@ -13,11 +13,13 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import br.com.inovacenter.cursomc.entity.enums.EstadoPagamento;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 public abstract class Pagamento implements Serializable {
 	private static final long serialVersionUID = 2261286962862748948L;
 	
@@ -30,7 +32,7 @@ public abstract class Pagamento implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "pedido_id")
 	@MapsId
-	private Pedido pedido;
+	private Pedido pedido = new Pedido();
 	
 	public Pagamento() {}
 
